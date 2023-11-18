@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import AddTask from "./components/AddTask";
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
+import { TaskProvider } from "./components/Context/TaskContext";
+import {useContext} from 'react'
+import TaskContext from './components/Context/TaskContext'
 
 function App() {
+  
+  const {tasks,setShowAddTask,showAddTask}=useContext(TaskContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TaskProvider>
+      <div className="container">
+        <Header
+          onShow={() => {
+            setShowAddTask(!showAddTask);
+          }}
+          showAdd={showAddTask}
+        />
+        {showAddTask && <AddTask />}
+        {tasks.length > 0 ? (
+          <Tasks/>
+        ) : (
+         <p>No Tasks to Show</p>
+        )}
+      </div>
+    </TaskProvider>
   );
 }
 
